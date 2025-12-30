@@ -50,11 +50,11 @@
     - `src/app/page.tsx`: 全体の組み立て (Header + ScrollArea + DateRows + FAB)
 
 ### 1-4. 永続化・オフライン検証 (Verification)
-- [ ] **PWA Configuration**
+- [x] **PWA Configuration**
     - `npm install next-pwa`
     - `next.config.mjs`: PWA plugin 追加
     - `src/app/manifest.ts`: Manifest 生成
-- [ ] **E2E Testing**
+- [x] **E2E Testing**
     - `e2e/persistence.spec.ts`: リロード後のデータ保持、オフライン動作テスト
 - [ ] **Manual Check**
     - iOS/Android 実機でのホーム画面追加と動作確認
