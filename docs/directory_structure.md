@@ -5,58 +5,67 @@ Feature-Sliced Design (FSD) の概念を取り入れつつ、Next.js App Router 
 ## 📁 ディレクトリツリー概観
 
 ```
-src/
+docs/                       # Documentation (Architecture, Plans)
+├── directory_structure.md  # This File
+├── mvp.md                  # MVP Features
+├── roadmap.md              # Development Roadmap
+├── schema_design.md        # Database Schema
+├── tech_selection.md       # Tech Stack Decisions
+├── testing_guidelines.md   # Testing Strategy
+└── ui_design.md            # UI/UX Specifications
+
+e2e/                        # ★ E2E Tests (Playwright)
+├── habit-flow.spec.ts
+└── persistence.spec.ts
+
+src/                        # Source Code
 ├── app/                    # Next.js App Router (Routing Layer)
 │   ├── layout.tsx          # Root Layout (Providers, Global Styles)
 │   ├── page.tsx            # LP / Dashboard Redirect
 │   ├── manifest.ts         # PWA Manifest
+│   ├── globals.css         # Global Styles & Tailwind
 │   ├── dashboard/          # Main App View (Grid)
 │   │   └── page.tsx
 │   └── settings/
 │       └── page.tsx
 │
-├── e2e/                    # ★ E2E Tests (Playwright)
-│   ├── habit-flow.spec.ts
-│   └── persistence.spec.ts
-│
 ├── features/               # ★ Domain Features (Business Logic & UI)
 │   ├── habit/              # 「習慣」ドメイン
 │   │   ├── components/     # UI Components (Presentational)
-│   │   │   └── HabitRow.test.tsx # Component Test
 │   │   ├── hooks/          # Domain Logic (Custom Hooks)
-│   │   │   └── useHabit.test.ts  # Unit Test
-│   │   ├── store/          # State Management (Zustand)
+│   │   │   ├── useHabit.ts
+│   │   │   └── useHabit.test.ts
+│   │   ├── store.ts        # State Management (Zustand)
 │   │   ├── db.ts           # Data Access (Dexie Table Definition)
 │   │   ├── types.ts        # Domain Types
-│   │   └── index.ts        # Public API (Exports to other layers)
+│   │   └── index.ts        # Public API
 │   │
 │   ├── record/             # 「記録/チェック」ドメイン
 │   │   ├── components/
 │   │   ├── hooks/
 │   │   ├── db.ts
-│   │   └── types.ts
+│   │   ├── types.ts
+│   │   ├── store.ts
+│   │   └── index.ts
 │   │
 │   └── calendar/           # 「カレンダー/日付」ドメイン
-│       ├── components/     # Grid, Month Navigation
+│       ├── components/
 │       ├── hooks/
-│       └── utils.ts
+│       ├── utils.ts
+│       └── index.ts
 │
 ├── components/             # Shared UI Components (Atomic)
 │   ├── ui/                 # shadcn/ui (Button, Dialog, etc.)
 │   ├── layout/             # Header, Footer, BottomNav
 │   └── icons/              # SVG Icons
 │
-├── lib/                    # Shared Infrastructure / Utilities
-│   ├── db/                 # Dexie Instance Configuration
-│   ├── date/               # date-fns wrapper / formatters
-│   ├── hooks/              # Generic Hooks (useMediaQuery, etc.)
-│   └── utils.ts            # cn() helper, etc.
-│
-├── styles/                 # Global Styles
-│   └── globals.css         # Tailwind Directives
-│
-└── types/                  # Shared / Global Types
-    └── index.d.ts
+└── lib/                    # Shared Infrastructure / Utilities
+    ├── db/                 # Dexie Instance Configuration
+    ├── date/               # date-fns wrapper / formatters
+    ├── hooks/              # Generic Hooks
+    ├── types/              # Database & Shared Types
+    │   └── db.ts
+    └── utils.ts            # cn() helper, etc.
 ```
 
 ---
