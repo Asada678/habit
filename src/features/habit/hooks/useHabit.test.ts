@@ -1,9 +1,11 @@
 import { describe, it, expect, beforeEach } from 'vitest';
+import { renderHook, act } from '@testing-library/react';
+import { useHabit } from './useHabit';
 import { useHabitStore } from '../store';
 import { db } from '@/lib/db';
 import 'fake-indexeddb/auto';
 
-describe('useHabitStore', () => {
+describe('useHabit', () => {
     beforeEach(async () => {
         // Reset DB and Store for isolation
         await db.delete();
@@ -12,18 +14,21 @@ describe('useHabitStore', () => {
     });
 
     it('should start with empty habits', () => {
-        const { habits } = useHabitStore.getState();
-        expect(habits).toEqual([]);
+        const { result } = renderHook(() => useHabit());
+        expect(result.current.habits).toEqual([]);
     });
 
     it('should add a habit and update state', async () => {
+        const { result } = renderHook(() => useHabit());
         const title = 'Drink Water';
-        await useHabitStore.getState().createHabit({ title });
 
-        const { habits } = useHabitStore.getState();
-        expect(habits).toHaveLength(1);
-        expect(habits[0].title).toBe(title);
-        expect(habits[0].id).toBeDefined();
+        await act(async () => {
+            await result.current.createHabit({ title });
+        });
+
+        expect(result.current.habits).toHaveLength(1);
+        expect(result.current.habits[0].title).toBe(title);
+        expect(result.current.habits[0].id).toBeDefined();
     });
 
     it('should fetch habits from DB', async () => {
@@ -32,33 +37,49 @@ describe('useHabitStore', () => {
             title: 'Exercise',
             createdAt: new Date(),
             updatedAt: new Date(),
+
             archived: false,
         });
 
-        await useHabitStore.getState().fetchHabits();
+        const { result } = renderHook(() => useHabit());
 
-        const { habits } = useHabitStore.getState();
-        expect(habits).toHaveLength(1);
-        expect(habits[0].title).toBe('Exercise');
+        await act(async () => {
+            await result.current.fetchHabits();
+        });
+
+        expect(result.current.habits).toHaveLength(1);
+        expect(result.current.habits[0].title).toBe('Exercise');
     });
 
     it('should update a habit', async () => {
-        await useHabitStore.getState().createHabit({ title: 'Old Title' });
-        const id = useHabitStore.getState().habits[0].id!;
+        const { result } = renderHook(() => useHabit());
 
-        await useHabitStore.getState().editHabit(id, { title: 'New Title' });
+        await act(async () => {
+            await result.current.createHabit({ title: 'Old Title' });
+        });
 
-        const { habits } = useHabitStore.getState();
-        expect(habits[0].title).toBe('New Title');
+        const id = result.current.habits[0].id!;
+
+        await act(async () => {
+            await result.current.editHabit(id, { title: 'New Title' });
+        });
+
+        expect(result.current.habits[0].title).toBe('New Title');
     });
 
     it('should delete a habit', async () => {
-        await useHabitStore.getState().createHabit({ title: 'To Delete' });
-        const id = useHabitStore.getState().habits[0].id!;
+        const { result } = renderHook(() => useHabit());
 
-        await useHabitStore.getState().removeHabit(id);
+        await act(async () => {
+            await result.current.createHabit({ title: 'To Delete' });
+        });
 
-        const { habits } = useHabitStore.getState();
-        expect(habits).toHaveLength(0);
+        const id = result.current.habits[0].id!;
+
+        await act(async () => {
+            await result.current.removeHabit(id);
+        });
+
+        expect(result.current.habits).toHaveLength(0);
     });
 });
