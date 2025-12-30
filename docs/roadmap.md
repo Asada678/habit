@@ -65,7 +65,7 @@
 UX向上と公開準備。
 
 ### 2-1. UI/UX 改善
-- [ ] **Micro Interactions**
+- [x] **Micro Interactions**
     - `src/features/record/components/CheckCell.tsx`: Framer Motion アニメーション調整
 - [ ] **Date Navigation**
     - `src/features/calendar/components/MonthNavigator.tsx`: 月切り替えボタン実装
