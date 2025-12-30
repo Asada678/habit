@@ -1,36 +1,83 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Habit Tracker (PWA)
 
-## Getting Started
+オフラインで動作する、ローカルファーストな習慣管理 PWA (Progressive Web App) です。Next.js と IndexedDB を使用して構築されており、サーバーとの通信を必要とせず、高速に動作します。
 
-First, run the development server:
+## 特徴 (Features)
+
+- **Offline First**: IndexedDB (Dexie.js) を使用したローカルデータ永続化により、オフラインでも完全な機能を利用可能。
+- **PWA Support**: モバイル端末のホーム画面に追加して、ネイティブアプリのように利用可能。
+- **Month View Interface**: 縦スクロールで日付移動、横スクロールで習慣項目を確認できる使いやすいインターフェース。
+- **Modern Tech Stack**: Next.js App Router, TypeScript, Tailwind CSS, Zustand, Biome を採用。
+
+## 技術スタック (Tech Stack)
+
+このプロジェクトは以下の技術を使用しています：
+
+- **Framework**: [Next.js](https://nextjs.org) 16 (App Router)
+- **Language**: [TypeScript](https://www.typescriptlang.org)
+- **Styling**: [Tailwind CSS](https://tailwindcss.com) v4
+- **UI Components**: [shadcn/ui](https://ui.shadcn.com) (Radix UI)
+- **State Management**: [Zustand](https://github.com/pmndrs/zustand)
+- **Database**: [Dexie.js](https://dexie.org) (IndexedDB wrapper)
+- **PWA**: [Serwist](https://serwist.pages.dev)
+- **Linter/Formatter**: [Biome](https://biomejs.dev)
+- **Testing**: [Vitest](https://vitest.dev), [Playwright](https://playwright.dev)
+
+## 開発環境のセットアップ (Getting Started)
+
+### 前提条件
+
+- Node.js (推奨バージョン: v20以上)
+- pnpm (パッケージマネージャー)
+
+### インストール
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+# リポジトリのクローン
+git clone <repository-url>
+cd habit
+
+# 依存関係のインストール
+pnpm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 開発サーバーの起動
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+pnpm dev
+```
+ブラウザで [http://localhost:3000](http://localhost:3000) を開いて確認できます。
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## スクリプト (Scripts)
 
-## Learn More
+| コマンド                    | 説明                                 |
+| --------------------------- | ------------------------------------ |
+| `pnpm dev`                  | 開発サーバーを起動 (webpack有効)     |
+| `pnpm build`                | 本番用ビルドを作成                   |
+| `pnpm start`                | 本番サーバーを起動                   |
+| `pnpm lint`                 | Biome を使用してリントを実行         |
+| `pnpm format`               | Biome を使用してコードをフォーマット |
+| `pnpm test`                 | Vitest でユニットテストを実行        |
+| `pnpm exec playwright test` | Playwright で E2E テストを実行       |
 
-To learn more about Next.js, take a look at the following resources:
+## プロジェクト構造 (Project Structure)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+推奨される構造設計に基づく主要ディレクトリです：
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```
+.
+├── docs/             # ドキュメント (ロードマップ等)
+├── e2e/              # Playwright E2E テスト
+├── public/           # 静的アセット
+├── src/
+│   ├── app/          # Next.js App Router ページ
+│   ├── components/   # 共通 UI コンポーネント (shadcn/ui含む)
+│   ├── features/     # 機能ごとのモジュール (habit, record, calendar等)
+│   ├── lib/          # ユーティリティ, DB設定, 型定義
+│   └── styles/       # グローバルスタイル
+└── ...
+```
 
-## Deploy on Vercel
+## ロードマップ (Roadmap)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+現在の進行状況や将来の計画については [docs/roadmap.md](./docs/roadmap.md) を参照してください。
