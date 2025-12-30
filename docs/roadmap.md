@@ -34,19 +34,19 @@
     - `src/features/record/store.ts`: `useRecordStore` (Zustand)
 
 ### 1-3. コア UI 実装 (P0 Requirements)
-- [ ] **Layout Components**
+- [x] **Layout Components**
     - `src/app/layout.tsx`: Root Layout
     - `src/components/layout/Header.tsx`: 年月表示, 設定ボタン
-- [ ] **Feature: Habit Components**
+- [x] **Feature: Habit Components**
     - `src/features/habit/components/HabitHeader.tsx`: 習慣アイコン列ヘッダー (Sticky)
     - `src/features/habit/components/HabitForm.tsx`: 習慣追加/編集用フォームコンポーネント
     - `src/features/habit/components/HabitDialog.tsx`: モーダルラッパー
-- [ ] **Feature: Calendar/Record Components**
+- [x] **Feature: Calendar/Record Components**
     - `src/features/calendar/hooks/useCalendar.ts`: 月の日付配列生成ロジック
     - `src/features/record/components/CheckCell.tsx`: 1マスのチェックボタン (Animation含む)
     - `src/features/record/components/NoteDialog.tsx`: 長押し時のメモ編集モーダル
     - `src/features/calendar/components/DateRow.tsx`: 1日分の行 (日付 + CheckCellの横並び)
-- [ ] **Main Page Integration**
+- [x] **Main Page Integration**
     - `src/app/page.tsx`: 全体の組み立て (Header + ScrollArea + DateRows + FAB)
 
 ### 1-4. 永続化・オフライン検証 (Verification)

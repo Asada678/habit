@@ -1,6 +1,10 @@
 export interface Habit {
     id?: number;
     title: string;
+    icon?: string;
+    color?: string;
+    frequency?: number[];
+    targetCount?: number;
     createdAt: Date;
     updatedAt: Date;
     archived: boolean;
