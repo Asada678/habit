@@ -2,20 +2,20 @@
 
 import { useEffect, useState } from "react";
 import { Header } from "@/components/layout/Header";
-import { HabitHeader } from "@/features/habit/components/HabitHeader";
-import { HabitDialog } from "@/features/habit/components/HabitDialog";
-import { NoteDialog } from "@/features/record/components/NoteDialog";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { DateRow } from "@/features/calendar/components/DateRow";
 import { useCalendar } from "@/features/calendar/hooks/useCalendar";
+import { HabitDialog } from "@/features/habit/components/HabitDialog";
+import { HabitHeader } from "@/features/habit/components/HabitHeader";
 import { useHabitStore } from "@/features/habit/store";
+import { NoteDialog } from "@/features/record/components/NoteDialog";
 import { useRecordStore } from "@/features/record/store";
-import { ScrollArea } from "@/components/ui/scroll-area";
 
 // Helper to match DB format YYYY-MM-DD
 function dateToCheckString(date: Date) {
   const y = date.getFullYear();
-  const m = String(date.getMonth() + 1).padStart(2, '0');
-  const d = String(date.getDate()).padStart(2, '0');
+  const m = String(date.getMonth() + 1).padStart(2, "0");
+  const d = String(date.getDate()).padStart(2, "0");
   return `${y}-${m}-${d}`;
 }
 
@@ -34,7 +34,7 @@ export default function Home() {
     open: false,
     habitId: null,
     dateStr: "",
-    initialNote: ""
+    initialNote: "",
   });
 
   // Initial Data Load
@@ -53,12 +53,14 @@ export default function Home() {
 
   const handleOpenNote = (habitId: number, date: Date) => {
     const dateStr = dateToCheckString(date);
-    const existingCheck = checks.find(c => c.habitId === habitId && c.date === dateStr);
+    const existingCheck = checks.find(
+      (c) => c.habitId === habitId && c.date === dateStr,
+    );
     setEditingNote({
       open: true,
       habitId,
       dateStr,
-      initialNote: existingCheck?.note || ""
+      initialNote: existingCheck?.note || "",
     });
   };
 
@@ -74,9 +76,8 @@ export default function Home() {
       <HabitHeader habits={habits} />
       <ScrollArea className="flex-1 w-full min-h-0">
         <div className="min-w-full inline-block align-top">
-
           <div className="pb-32">
-            {daysInMonth.map(date => (
+            {daysInMonth.map((date) => (
               <DateRow
                 key={date.toISOString()}
                 date={date}
@@ -104,7 +105,7 @@ export default function Home() {
 
       <NoteDialog
         open={editingNote.open}
-        onOpenChange={(open) => setEditingNote(prev => ({ ...prev, open }))}
+        onOpenChange={(open) => setEditingNote((prev) => ({ ...prev, open }))}
         initialNote={editingNote.initialNote}
         dateStr={editingNote.dateStr}
         onSave={handleSaveNote}

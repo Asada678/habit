@@ -1,6 +1,14 @@
-import type { Habit } from '@/lib/types/db';
+import type { Habit } from "@/lib/types/db";
 
 export type { Habit };
 
-export type NewHabit = Pick<Habit, 'title' | 'icon' | 'color' | 'frequency' | 'targetCount'>;
-export type HabitUpdate = Partial<Pick<Habit, 'title' | 'archived' | 'icon' | 'color' | 'frequency' | 'targetCount'>>;
+export type NewHabit = Pick<
+  Habit,
+  "title" | "icon" | "color" | "frequency" | "targetCount"
+>;
+export type HabitUpdate = Partial<
+  Pick<
+    Habit,
+    "title" | "archived" | "icon" | "color" | "frequency" | "targetCount"
+  >
+>;
