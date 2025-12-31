@@ -10,6 +10,7 @@ import { HabitHeader } from "@/features/habit/components/HabitHeader";
 import { useHabitStore } from "@/features/habit/store";
 import { NoteDialog } from "@/features/record/components/NoteDialog";
 import { useRecordStore } from "@/features/record/store";
+import { BottomNav } from "@/components/layout/BottomNav";
 
 // Helper to match DB format YYYY-MM-DD
 function dateToCheckString(date: Date) {
@@ -99,7 +100,7 @@ export default function Home() {
         </div>
       </ScrollArea>
 
-      <div className="fixed bottom-6 right-6 z-50">
+      <div className="fixed bottom-24 right-6 z-50">
         <HabitDialog onSave={createHabit} />
       </div>
 
@@ -110,6 +111,7 @@ export default function Home() {
         dateStr={editingNote.dateStr}
         onSave={handleSaveNote}
       />
+      <BottomNav />
     </div>
   );
 }
