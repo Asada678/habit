@@ -49,7 +49,7 @@ export function DateRow({
       </div>
 
       {/* Habits Grid */}
-      <div className="flex">
+      <div className="flex h-full">
         {habits.map((habit) => {
           // Check if there's a record for this habit on this date
           // Note: Optimizing this find inside render might be needed later for perf,
