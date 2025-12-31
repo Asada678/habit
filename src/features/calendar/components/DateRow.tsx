@@ -54,10 +54,7 @@ export function DateRow({
           // Check if there's a record for this habit on this date
           // Note: Optimizing this find inside render might be needed later for perf,
           // but for < 100 items it's fine.
-          const dateStr = date.toLocaleDateString("ja-JP").split("/").join("-"); // YYYY-MM-DD format?
-          // Wait, in db.ts we use YYYY-MM-DD string format.
-          // Let's ensure format matches.
-          // The date passed here is a JS Date object from useCalendar.
+
 
           // Construct YYYY-MM-DD string manually to avoid timezone issues/locale issues
           const y = date.getFullYear();

@@ -1,5 +1,5 @@
 import type { Habit } from "@/lib/types/db";
-import { cn } from "@/lib/utils";
+
 
 interface HabitHeaderProps {
   habits: Habit[];

@@ -22,7 +22,7 @@ function dateToCheckString(date: Date) {
 export default function Home() {
   const { habits, fetchHabits, createHabit } = useHabitStore();
   const { checks, toggle, updateNote, setPeriod } = useRecordStore();
-  const { currentDate, daysInMonth, year, month } = useCalendar();
+  const { daysInMonth, year, month } = useCalendar();
 
   // Note Dialog State
   const [editingNote, setEditingNote] = useState<{

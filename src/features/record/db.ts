@@ -26,7 +26,7 @@ export async function toggleCheck(
     const existing = await db.checks.where({ habitId, date }).first();
     if (existing) {
       const newStatus = !existing.completed;
-      await db.checks.update(existing.id!, {
+      await db.checks.update(existing.id as number, {
         completed: newStatus,
         updatedAt: new Date(),
       });
@@ -51,7 +51,7 @@ export async function saveNote(
   await db.transaction("rw", db.checks, async () => {
     const existing = await db.checks.where({ habitId, date }).first();
     if (existing) {
-      await db.checks.update(existing.id!, {
+      await db.checks.update(existing.id as number, {
         note,
         updatedAt: new Date(),
       });

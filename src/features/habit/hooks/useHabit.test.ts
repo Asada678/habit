@@ -58,7 +58,8 @@ describe("useHabit", () => {
       await result.current.createHabit({ title: "Old Title" });
     });
 
-    const id = result.current.habits[0].id!;
+    const id = result.current.habits[0].id;
+    if (!id) throw new Error("Habit ID is missing");
 
     await act(async () => {
       await result.current.editHabit(id, { title: "New Title" });
@@ -74,7 +75,8 @@ describe("useHabit", () => {
       await result.current.createHabit({ title: "To Delete" });
     });
 
-    const id = result.current.habits[0].id!;
+    const id = result.current.habits[0].id;
+    if (!id) throw new Error("Habit ID is missing");
 
     await act(async () => {
       await result.current.removeHabit(id);
