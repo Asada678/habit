@@ -7,25 +7,41 @@ interface HabitHeaderProps {
 
 export function HabitHeader({ habits }: HabitHeaderProps) {
   return (
-    <div className="sticky top-0 z-40 flex border-b bg-background/95 backdrop-blur py-2 shadow-sm">
-      <div className="w-14 shrink-0 flex items-center justify-center border-r border-border/50 bg-background/50">
-        <span className="text-xs font-medium text-muted-foreground">Date</span>
+    <div className="sticky top-0 z-40 flex border-b border-border bg-background">
+      {/* Corner "Day" Header - Sticky Left & Top */}
+      <div className="sticky left-0 z-50 flex w-12 shrink-0 items-end justify-center border-r border-border bg-background pb-2">
+        <span className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">
+          Day
+        </span>
       </div>
-      <div className="flex flex-1 gap-2 overflow-x-auto px-2 no-scrollbar">
+
+      {/* Habit Columns */}
+      <div className="flex">
         {habits.map((habit) => (
           <div
             key={habit.id}
-            className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-muted text-xl shadow-sm ring-1 ring-inset ring-border/50 transition-transform hover:scale-105"
+            className="group relative flex h-32 w-12 shrink-0 cursor-pointer flex-col items-center justify-center border-r border-border transition-colors hover:bg-muted/50"
             title={habit.title}
-            style={{
-              backgroundColor: habit.color ? `${habit.color}20` : undefined,
-            }}
           >
-            <span role="img" aria-label={habit.title}>
-              {habit.icon || "📝"}
-            </span>
+            <div className="absolute inset-0 flex items-center justify-center">
+              <span
+                className="whitespace-nowrap text-lg font-medium text-foreground"
+                style={{
+                  writingMode: "vertical-rl",
+                  textOrientation: "mixed",
+                }}
+              >
+                {habit.title}
+              </span>
+            </div>
+            {/* Hover visual cue or color strip could be added here */}
           </div>
         ))}
+
+        {/* Add Button Placeholder (Optional, strictly following dashboard.html logic it might be here) */}
+        <div className="flex h-32 w-12 shrink-0 items-center justify-center border-r border-dashed border-border transition-colors hover:bg-muted/50">
+          <span className="text-muted-foreground opacity-50">+</span>
+        </div>
       </div>
     </div>
   );

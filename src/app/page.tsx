@@ -74,29 +74,27 @@ export default function Home() {
   return (
     <div className="flex h-[100dvh] flex-col bg-background text-foreground overflow-hidden">
       <Header title={`${year}年 ${month}月`} />
-      <HabitHeader habits={habits} />
       <ScrollArea className="flex-1 w-full min-h-0">
-        <div className="min-w-full inline-block align-top">
-          <div className="pb-32">
-            {daysInMonth.map((date) => (
-              <DateRow
-                key={date.toISOString()}
-                date={date}
-                habits={habits}
-                checks={checks}
-                onToggle={(habitId) => handleToggle(habitId, date)}
-                onEditNote={(habitId) => handleOpenNote(habitId, date)}
-              />
-            ))}
+        <div className="min-w-max pb-32">
+          <HabitHeader habits={habits} />
+          {daysInMonth.map((date) => (
+            <DateRow
+              key={date.toISOString()}
+              date={date}
+              habits={habits}
+              checks={checks}
+              onToggle={(habitId) => handleToggle(habitId, date)}
+              onEditNote={(habitId) => handleOpenNote(habitId, date)}
+            />
+          ))}
 
-            {/* Empty state if no habits */}
-            {habits.length === 0 && (
-              <div className="p-8 text-center text-muted-foreground">
-                <p>No habits yet.</p>
-                <p className="text-sm">Tap the + button to add one.</p>
-              </div>
-            )}
-          </div>
+          {/* Empty state if no habits */}
+          {habits.length === 0 && (
+            <div className="p-8 text-center text-muted-foreground">
+              <p>No habits yet.</p>
+              <p className="text-sm">Tap the + button to add one.</p>
+            </div>
+          )}
         </div>
       </ScrollArea>
 

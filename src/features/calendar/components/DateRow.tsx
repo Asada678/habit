@@ -27,34 +27,33 @@ export function DateRow({
   return (
     <div
       className={cn(
-        "flex items-center text-sm transition-colors hover:bg-muted/30",
-        isToday
-          ? "bg-accent/10 hover:bg-accent/20"
-          : "border-b border-border/40",
+        "flex h-10 w-max min-w-full items-center border-b border-border bg-background transition-colors",
+        // Highlight today's row slightly if desired, but keep z-index in mind
+        isToday && "bg-accent/5",
       )}
     >
-      {/* Date Column */}
+      {/* Date Column - Sticky Left */}
       <div
         className={cn(
-          "w-14 shrink-0 flex flex-col items-center justify-center py-3 border-r border-border/50",
-          isToday && "text-primary font-bold",
-          !isToday && isWeekend && "text-muted-foreground/80",
-          !isToday && !isWeekend && "text-muted-foreground",
+          "sticky left-0 z-30 flex h-full w-12 shrink-0 items-center justify-center border-r border-border bg-background text-sm font-medium",
+          isToday ? "text-primary" : "text-muted-foreground",
+          isWeekend && !isToday && "text-muted-foreground/80",
         )}
       >
-        <span className="text-lg leading-none">{dayOfMonth}</span>
-        <span className="text-[10px] uppercase tracking-wider leading-none mt-1">
-          {dayOfWeek}
-        </span>
+        <div className="flex flex-col items-center leading-none gap-0.5">
+          <span>{dayOfMonth}</span>
+          <span className="text-[9px] uppercase tracking-wider opacity-80">
+            {dayOfWeek}
+          </span>
+        </div>
       </div>
 
       {/* Habits Grid */}
-      <div className="flex flex-1 gap-2 overflow-x-hidden px-2">
+      <div className="flex">
         {habits.map((habit) => {
           // Check if there's a record for this habit on this date
           // Note: Optimizing this find inside render might be needed later for perf,
           // but for < 100 items it's fine.
-
 
           // Construct YYYY-MM-DD string manually to avoid timezone issues/locale issues
           const y = date.getFullYear();
@@ -67,16 +66,23 @@ export function DateRow({
           );
 
           return (
-            <CheckCell
+            <div
               key={habit.id}
-              status={!!check?.completed}
-              hasNote={!!check?.note}
-              color={habit.color}
-              onClick={() => habit.id && onToggle(habit.id)}
-              onLongPress={() => habit.id && onEditNote(habit.id)}
-            />
+              className="flex w-12 shrink-0 items-center justify-center border-r border-border"
+            >
+              <CheckCell
+                status={!!check?.completed}
+                hasNote={!!check?.note}
+                color={habit.color}
+                onClick={() => habit.id && onToggle(habit.id)}
+                onLongPress={() => habit.id && onEditNote(habit.id)}
+              />
+            </div>
           );
         })}
+
+        {/* Empty Placeholder Cell to match header's + button column */}
+        <div className="w-12 shrink-0 border-r border-dashed border-border" />
       </div>
     </div>
   );
