@@ -1,6 +1,5 @@
 import type { Habit } from "@/lib/types/db";
 
-
 interface HabitHeaderProps {
   habits: Habit[];
 }
