@@ -44,6 +44,16 @@
   --radius-2xl: calc(var(--radius) + 8px);
   --radius-3xl: calc(var(--radius) + 12px);
   --radius-4xl: calc(var(--radius) + 16px);
+
+  /* Custom Dashboard Colors */
+  --color-habit-pink: var(--habit-pink);
+  --color-habit-orange: var(--habit-orange);
+  --color-habit-blue: var(--habit-blue);
+  --color-habit-purple: var(--habit-purple);
+  --color-habit-yellow: var(--habit-yellow);
+  --color-habit-green: var(--habit-green);
+  --color-paper: var(--paper);
+  --color-grid-line: var(--grid-line);
 }
 
 :root {
@@ -79,6 +89,16 @@
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
+
+  /* Custom Dashboard Colors */
+  --habit-pink: #FDE2E2;
+  --habit-orange: #FEEBC8;
+  --habit-blue: #E2F0F9;
+  --habit-purple: #E9D8FD;
+  --habit-yellow: #FEFCBF;
+  --habit-green: #F0FFF4;
+  --paper: #FFFFFF;
+  --grid-line: #E5E5E5;
 }
 
 .dark {
@@ -113,6 +133,31 @@
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.556 0 0);
+
+  /* Custom Dashboard Colors Dark Mode */
+  --habit-pink: #ccbaba;
+  /* Desaturated/darker or use as is? Keeping same for now to match request or maybe slight adjust */
+  --habit-orange: #d1c1a5;
+  --habit-blue: #bac5cd;
+  --habit-purple: #c3b4d4;
+  --habit-yellow: #d1cf9d;
+  --habit-green: #c4d1c7;
+  --paper: #262626;
+  --grid-line: #404040;
+}
+
+@utility writing-vertical {
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+}
+
+@utility no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 @layer base {

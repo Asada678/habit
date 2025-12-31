@@ -1,4 +1,5 @@
 import { CheckCell } from "@/features/record/components/CheckCell";
+import { resolveHabitColor } from "@/features/habit/constants";
 import type { Check, Habit } from "@/lib/types/db";
 import { cn } from "@/lib/utils";
 
@@ -73,7 +74,7 @@ export function DateRow({
               <CheckCell
                 status={!!check?.completed}
                 hasNote={!!check?.note}
-                color={habit.color}
+                color={resolveHabitColor(habit.color)}
                 onClick={() => habit.id && onToggle(habit.id)}
                 onLongPress={() => habit.id && onEditNote(habit.id)}
               />
