@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label"; // Check if Label exists, usually in shadcn
@@ -28,14 +28,20 @@ export function HabitForm({ initialData, onSubmit, onCancel }: HabitFormProps) {
   const [icon, setIcon] = useState(initialData?.icon || "📝");
   const [color, setColor] = useState(initialData?.color || COLORS[6]);
 
+  useEffect(() => {
+    setTitle(initialData?.title || "");
+    setIcon(initialData?.icon || "📝");
+    setColor(initialData?.color || COLORS[6]);
+  }, [initialData?.title, initialData?.icon, initialData?.color]);
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     onSubmit({
       title,
       icon,
       color,
-      frequency: [1, 1, 1, 1, 1, 1, 1], // Default everyday for MVP
-      targetCount: 1, // Default 1
+      frequency: initialData?.frequency || [1, 1, 1, 1, 1, 1, 1], // default everyday
+      targetCount: initialData?.targetCount || 1,
     });
   };
 
