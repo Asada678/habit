@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react";
 import { AppHeader } from "@/components/layout/AppHeader";
 import { BottomNav } from "@/components/layout/BottomNav";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import { CalendarControl } from "@/features/calendar/components/CalendarControl";
 import { DateRow } from "@/features/calendar/components/DateRow";
 import { useCalendar } from "@/features/calendar/hooks/useCalendar";
@@ -73,53 +72,59 @@ export default function Home() {
   };
 
   return (
-    <div className="flex h-[100dvh] flex-col bg-background text-foreground overflow-hidden relative">
-      <main className="flex-1 overflow-hidden flex flex-col relative z-0">
-        <ScrollArea className="flex-1 w-full min-h-0">
-          <div className="min-w-max pb-32">
-            {/* App Header - Scrolls vertically, Stays fixed horizontally */}
-            <div className="sticky left-0 z-50 w-screen max-w-full bg-background">
-              <AppHeader />
-            </div>
+    <div className="h-[100dvh] w-full overflow-auto bg-background text-foreground relative">
+      {/* 
+        Content Wrapper
+        min-w-max ensures the container grows horizontally if children (habit columns) overflow 
+      */}
+      <main className="min-w-max flex flex-col pb-32">
+        {/* App Header - Scrolls vertically, Stays fixed horizontally */}
+        {/* z-[60] to be safe above others if overlap occurs (though usually flows above) */}
+        <div className="sticky left-0 z-[60] w-screen max-w-full bg-background px-4">
+          <AppHeader />
+        </div>
 
-            {/* Sticky Header Container (Month + Habits) */}
-            <div className="sticky top-0 z-40 bg-background">
-              <div className="sticky left-0 z-50 w-screen max-w-full bg-background/95 backdrop-blur border-b border-border">
-                <CalendarControl
-                  currentDate={currentDate}
-                  onDateChange={setDate}
-                  className="bg-transparent border-none px-4 py-2"
-                />
-              </div>
-              <HabitHeader habits={habits} />
-            </div>
+        {/* Calendar Control - Sticky Top & Left */}
+        {/* height 12 (3rem/48px) to serve as offset for HabitHeader */}
+        <div className="sticky top-0 left-0 z-[50] w-screen max-w-full bg-background border-b border-border h-12 flex items-center">
+          <CalendarControl
+            currentDate={currentDate}
+            onDateChange={setDate}
+            className="w-full border-none px-4"
+          />
+        </div>
 
-            {/* Date Grid */}
-            <div className="relative z-0">
-              {daysInMonth.map((date) => (
-                <DateRow
-                  key={date.toISOString()}
-                  date={date}
-                  habits={habits}
-                  checks={checks}
-                  onToggle={(habitId) => handleToggle(habitId, date)}
-                  onEditNote={(habitId) => handleOpenNote(habitId, date)}
-                />
-              ))}
-            </div>
+        {/* HabitHeader - Sticky Top (below Calendar) */}
+        {/* top-12 matches CalendarControl height */}
+        <div className="sticky top-12 z-[40] bg-background">
+          <HabitHeader habits={habits} />
+        </div>
 
-            {/* Empty state if no habits */}
-            {habits.length === 0 && (
-              <div className="sticky left-0 w-screen max-w-full p-8 text-center text-muted-foreground">
-                <p>No habits yet.</p>
-                <p className="text-sm">Tap the + button to add one.</p>
-              </div>
-            )}
+        {/* Date Grid */}
+        <div className="flex flex-col z-0">
+          {daysInMonth.map((date) => (
+            <DateRow
+              key={date.toISOString()}
+              date={date}
+              habits={habits}
+              checks={checks}
+              onToggle={(habitId) => handleToggle(habitId, date)}
+              onEditNote={(habitId) => handleOpenNote(habitId, date)}
+            />
+          ))}
+        </div>
+
+        {/* Empty state if no habits */}
+        {habits.length === 0 && (
+          <div className="sticky left-0 w-screen max-w-full p-8 text-center text-muted-foreground">
+            <p>No habits yet.</p>
+            <p className="text-sm">Tap the + button to add one.</p>
           </div>
-        </ScrollArea>
+        )}
       </main>
 
-      <div className="fixed bottom-24 right-6 z-50">
+      {/* Fixed Overlay UI */}
+      <div className="fixed bottom-24 right-6 z-[70]">
         <HabitDialog onSave={createHabit} />
       </div>
 
@@ -131,9 +136,10 @@ export default function Home() {
         onSave={handleSaveNote}
       />
       <BottomNav />
-      {/* Paper Texture Overlay using CSS Gradient */}
+
+      {/* Paper Texture Overlay */}
       <div
-        className="pointer-events-none fixed inset-0 z-50 opacity-[0.4] mix-blend-multiply dark:mix-blend-overlay"
+        className="pointer-events-none fixed inset-0 z-[100] opacity-[0.4] mix-blend-multiply dark:mix-blend-overlay"
         style={{
           backgroundImage: `
             linear-gradient(to right, rgba(0,0,0,0.02) 1px, transparent 1px),
