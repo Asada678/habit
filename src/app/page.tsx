@@ -71,38 +71,61 @@ export default function Home() {
     }
   };
 
+  // Header Scroll Logic with Intersection Observer
+  const [isHeaderVisible, setIsHeaderVisible] = useState(true);
+
+  useEffect(() => {
+    const sentinel = document.getElementById("scroll-sentinel");
+    if (!sentinel) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        // If sentinel is interacting (visible at top), show header.
+        // If it scrolls out of view, hide header.
+        setIsHeaderVisible(entry.isIntersecting);
+      },
+      { threshold: 0 }
+    );
+
+    observer.observe(sentinel);
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <div className="h-[100dvh] w-full flex flex-col bg-background text-foreground relative">
       {/* 
-        1. Fixed Top Area (App Header)
-        This area stays visible and never scrolls horizontally or vertically.
+        1. Collapsible Top Area (App Header)
+        Hides when scrolling down in the main area (Sentinel goes out of view).
       */}
-      <div className="shrink-0 z-[60] bg-background w-full shadow-sm">
+      <div
+        className={`shrink-0 z-[60] bg-background w-full transition-all duration-300 ease-in-out overflow-hidden ${isHeaderVisible ? "max-h-24 opacity-100" : "max-h-0 opacity-0"
+          }`}
+      >
         <AppHeader />
+      </div>
+
+      {/* Calendar Control - Sticky Top (Fixed relative to Main) */}
+      <div className="shrink-0 z-[50] w-full bg-background border-b border-border h-12 flex items-center relative">
+        <CalendarControl
+          currentDate={currentDate}
+          onDateChange={setDate}
+          className="w-full border-none px-4"
+        />
       </div>
 
       {/* 
         2. Main Scrollable Area
-        Contains Calendar, Habit Header, and Date Grid.
-        Sticky elements inside here stick to the top of THIS container.
       */}
       <div className="flex-1 overflow-auto relative w-full">
         {/* min-w-max ensures horizontal scrolling triggers when content overflows */}
         <main className="min-w-max flex flex-col pb-32">
 
-          {/* Calendar Control - Sticky Top & Left */}
-          {/* Height 12 (3rem/48px) */}
-          <div className="sticky top-0 left-0 z-[50] w-screen max-w-full bg-background border-b border-border h-12 flex items-center">
-            <CalendarControl
-              currentDate={currentDate}
-              onDateChange={setDate}
-              className="w-full border-none px-4"
-            />
-          </div>
+          {/* Option 4: Sentinel Element for Observer */}
+          {/* Placed at the very top of scrollable content. When this scrolls out, header hides. */}
+          <div id="scroll-sentinel" className="h-[1px] w-full absolute top-0 pointer-events-none opacity-0" />
 
-          {/* HabitHeader - Sticky Top (below Calendar) */}
-          {/* top-12 matches CalendarControl height. Since AppHeader is outside, top-12 is relative to this scroll container's top. */}
-          <div className="sticky top-12 z-[40] bg-background">
+          {/* HabitHeader - Sticky Top (at top of scroll container) */}
+          <div className="sticky top-0 z-[40] bg-background">
             <HabitHeader habits={habits} />
           </div>
 
