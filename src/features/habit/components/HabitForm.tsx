@@ -5,7 +5,6 @@ import { Label } from "@/components/ui/label"; // Check if Label exists, usually
 import {
   HABIT_COLORS,
   HABIT_COLOR_MAP,
-  type HabitColorKey,
   resolveHabitColor,
 } from "@/features/habit/constants";
 import type { NewHabit } from "@/features/habit/types";

@@ -39,7 +39,7 @@ export function HabitHeader({ habits }: HabitHeaderProps) {
 
   return (
     <>
-      <div className="sticky top-0 z-40 flex border-b border-border bg-background">
+      <div className="z-40 flex border-b border-border bg-background">
         {/* Corner "Day" Header - Sticky Left & Top */}
         <div className="sticky left-0 z-50 flex w-12 shrink-0 items-end justify-center border-r border-border bg-background pb-2">
           <span className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">

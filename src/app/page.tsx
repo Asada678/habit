@@ -77,16 +77,20 @@ export default function Home() {
       <main className="flex-1 overflow-hidden flex flex-col relative z-0">
         <ScrollArea className="flex-1 w-full min-h-0">
           <div className="min-w-max pb-32">
-
-            {/* Scrollable App Header */}
-            <AppHeader />
+            {/* App Header - Scrolls vertically, Stays fixed horizontally */}
+            <div className="sticky left-0 z-50 w-screen max-w-full bg-background">
+              <AppHeader />
+            </div>
 
             {/* Sticky Header Container (Month + Habits) */}
-            <div className="sticky top-0 z-40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 shadow-sm border-b border-border">
-              <CalendarControl
-                currentDate={currentDate}
-                onDateChange={setDate}
-              />
+            <div className="sticky top-0 z-40 bg-background">
+              <div className="sticky left-0 z-50 w-screen max-w-full bg-background/95 backdrop-blur border-b border-border">
+                <CalendarControl
+                  currentDate={currentDate}
+                  onDateChange={setDate}
+                  className="bg-transparent border-none px-4 py-2"
+                />
+              </div>
               <HabitHeader habits={habits} />
             </div>
 
@@ -106,7 +110,7 @@ export default function Home() {
 
             {/* Empty state if no habits */}
             {habits.length === 0 && (
-              <div className="p-8 text-center text-muted-foreground">
+              <div className="sticky left-0 w-screen max-w-full p-8 text-center text-muted-foreground">
                 <p>No habits yet.</p>
                 <p className="text-sm">Tap the + button to add one.</p>
               </div>
@@ -135,7 +139,7 @@ export default function Home() {
             linear-gradient(to right, rgba(0,0,0,0.02) 1px, transparent 1px),
             linear-gradient(to bottom, rgba(0,0,0,0.02) 1px, transparent 1px)
           `,
-          backgroundSize: '24px 24px'
+          backgroundSize: "24px 24px",
         }}
       />
     </div>
