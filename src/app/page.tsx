@@ -72,56 +72,63 @@ export default function Home() {
   };
 
   return (
-    <div className="h-[100dvh] w-full overflow-auto bg-background text-foreground relative">
+    <div className="h-[100dvh] w-full flex flex-col bg-background text-foreground relative">
       {/* 
-        Content Wrapper
-        min-w-max ensures the container grows horizontally if children (habit columns) overflow 
+        1. Fixed Top Area (App Header)
+        This area stays visible and never scrolls horizontally or vertically.
       */}
-      <main className="min-w-max flex flex-col pb-32">
-        {/* App Header - Scrolls vertically, Stays fixed horizontally */}
-        {/* z-[60] to be safe above others if overlap occurs (though usually flows above) */}
-        <div className="sticky left-0 z-[60] w-screen max-w-full bg-background px-4">
-          <AppHeader />
-        </div>
+      <div className="shrink-0 z-[60] bg-background w-full shadow-sm">
+        <AppHeader />
+      </div>
 
-        {/* Calendar Control - Sticky Top & Left */}
-        {/* height 12 (3rem/48px) to serve as offset for HabitHeader */}
-        <div className="sticky top-0 left-0 z-[50] w-screen max-w-full bg-background border-b border-border h-12 flex items-center">
-          <CalendarControl
-            currentDate={currentDate}
-            onDateChange={setDate}
-            className="w-full border-none px-4"
-          />
-        </div>
+      {/* 
+        2. Main Scrollable Area
+        Contains Calendar, Habit Header, and Date Grid.
+        Sticky elements inside here stick to the top of THIS container.
+      */}
+      <div className="flex-1 overflow-auto relative w-full">
+        {/* min-w-max ensures horizontal scrolling triggers when content overflows */}
+        <main className="min-w-max flex flex-col pb-32">
 
-        {/* HabitHeader - Sticky Top (below Calendar) */}
-        {/* top-12 matches CalendarControl height */}
-        <div className="sticky top-12 z-[40] bg-background">
-          <HabitHeader habits={habits} />
-        </div>
-
-        {/* Date Grid */}
-        <div className="flex flex-col z-0">
-          {daysInMonth.map((date) => (
-            <DateRow
-              key={date.toISOString()}
-              date={date}
-              habits={habits}
-              checks={checks}
-              onToggle={(habitId) => handleToggle(habitId, date)}
-              onEditNote={(habitId) => handleOpenNote(habitId, date)}
+          {/* Calendar Control - Sticky Top & Left */}
+          {/* Height 12 (3rem/48px) */}
+          <div className="sticky top-0 left-0 z-[50] w-screen max-w-full bg-background border-b border-border h-12 flex items-center">
+            <CalendarControl
+              currentDate={currentDate}
+              onDateChange={setDate}
+              className="w-full border-none px-4"
             />
-          ))}
-        </div>
-
-        {/* Empty state if no habits */}
-        {habits.length === 0 && (
-          <div className="sticky left-0 w-screen max-w-full p-8 text-center text-muted-foreground">
-            <p>No habits yet.</p>
-            <p className="text-sm">Tap the + button to add one.</p>
           </div>
-        )}
-      </main>
+
+          {/* HabitHeader - Sticky Top (below Calendar) */}
+          {/* top-12 matches CalendarControl height. Since AppHeader is outside, top-12 is relative to this scroll container's top. */}
+          <div className="sticky top-12 z-[40] bg-background">
+            <HabitHeader habits={habits} />
+          </div>
+
+          {/* Date Grid */}
+          <div className="flex flex-col z-0">
+            {daysInMonth.map((date) => (
+              <DateRow
+                key={date.toISOString()}
+                date={date}
+                habits={habits}
+                checks={checks}
+                onToggle={(habitId) => handleToggle(habitId, date)}
+                onEditNote={(habitId) => handleOpenNote(habitId, date)}
+              />
+            ))}
+          </div>
+
+          {/* Empty state if no habits */}
+          {habits.length === 0 && (
+            <div className="sticky left-0 w-screen max-w-full p-8 text-center text-muted-foreground">
+              <p>No habits yet.</p>
+              <p className="text-sm">Tap the + button to add one.</p>
+            </div>
+          )}
+        </main>
+      </div>
 
       {/* Fixed Overlay UI */}
       <div className="fixed bottom-24 right-6 z-[70]">
